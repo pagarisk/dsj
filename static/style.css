@@ -1,0 +1,11 @@
+
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Custom narrow container */
+.container-narrow {
+    margin: 0 auto;
+    max-width: 760px;
+}
