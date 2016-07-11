@@ -3,54 +3,68 @@
     <title>Add a job &ndash; Data Science Jobs</title>
 {% endblock %}
 {% block content %}
+
+{% macro render_errors(field) %}
+    {% if field.errors %}
+        <br />
+        <div class="alert alert-danger" role="alert">
+            {% for error in field.errors %}
+                {{ error }}</li>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
 <div class = "container-narrow">
     <form action="{{ url_for('add_job') }}" method="POST">
         <div class="form-group">
             <label for="title">Job title</label>
-            <input type="text" class="form-control" id="title" placeholder="Data Science Engineer">
+            <input type="text" class="form-control" id="title" name = "title" placeholder="Data Science Engineer">
+            {{ render_errors(form.title) }}
             <p class = "help-block">What is the position called?</p>
         </div>
         <div class="form-group">
             <label for="company">Company name</label>
-            <input type="text" class="form-control" id="company" placeholder="Cool and Rad Co.">
+            <input type="text" class="form-control" id="company" name = "company" placeholder="Cool and Rad Co.">
+            {{ render_errors(form.company) }}
             <p class = "help-block">What is the name of your company?</p>
         </div>
         <div class="form-group">
             <label for="companylink">Company website</label>
             <input type="text" class="form-control" id="companylink" placeholder="https://coolandrad.co">
+            {{ render_errors(form.companylink) }}
             <p class = "help-block">Care to provide your company website? This field is optional.</p>
         </div>
         <div class="form-group">
             <label for="location">Location</label>
-            <input type="text" class="form-control" id="location" placeholder="Seattle, WA or New York, NY">
+            <input type="text" class="form-control" id="location" name = "location" placeholder="Seattle, WA, New York, NY or remote">
+            {{ render_errors(form.location) }}
             <p class = "help-block">Where are you located? Fill in 'Remote' if location is not important.</p>
         </div>
         <div class="form-group">
-            <label for="salary">Salary</label>
-            <div class="input-group">
-                <span class="input-group-addon">$</span>
-                <input type="text" class="form-control" id="salary">
-            </div>
-            <p class = "help-block">This is optional. However, jobs with salary tend to get more views.</p>
-        </div>
-        <div class="form-group">
             <label for="summary">Job summary</label>
-            <textarea class="form-control" id="summary" rows=5>Put the job summary here...</textarea>
+            <textarea class="form-control" id="summary" name = "summary" rows=5>Put the job summary here...</textarea>
+            {{ render_errors(form.summary) }}
         </div>
         <div class="form-group">
             <label for="requirements">Job requirements</label>
-            <textarea class="form-control" id="requirements" rows=5>What are the required qualifications for this position?</textarea>
+            <textarea class="form-control" id="requirements" name = "requirements" rows=5>What are the required qualifications for this position?</textarea>
+            {{ render_errors(form.requirements) }}
         </div>
         <div class="form-group">
             <label for="about">About company</label>
-            <textarea class="form-control" id="about" rows=5>Tell a couple of words about your company.</textarea>
+            <textarea class="form-control" id="about" name = "about" rows=5>Tell a couple of words about your company.</textarea>
+            {{ render_errors(form.about) }}
         </div>
         <div class="form-group">
             <label for="applylink">Application link</label>
             <input type="text" class="form-control" id="applylink" placeholder="https://coolandrad.co/jobs/data-science-engineer">
+            {{ render_errors(form.applylink) }}
             <p class = "help-block">Where should the candidate submit an application?</p>
         </div>
         <button type="submit" class="btn btn-success btn-lg">Submit</button>
+    {{ form.csrf_token }}
     </form>
 </div>
+
 {% endblock %}

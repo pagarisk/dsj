@@ -1,30 +1,28 @@
 {% extends "base.html" %}
 {% block title %}
-    <title>{{ id }} &ndash; Data Science Jobs</title>
+    <title>{{ job.title }} &ndash; Data Science Jobs</title>
 {% endblock %}
 {% block content %}
 <div class = "container-narrow">
-    
     <div class = "page-header">  
-        <h1>The job ID is {{ id }}</h1>
+        <h1>{{ job.title }}</h1>
     </div>
-            <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="#" target = "_blank">Company website</a> /
-            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> London, UK / 
+    <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="{{ job.companylink }}" target = "_blank">Company website</a> /
+    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{ job.location }} / 
             <span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Salary not disclosed / 
-            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> 4 days ago
+            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Published on {{ job.date }}
     <h2>Job summary</h2>
-    <p class = "text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam blandit aliquet porttitor. Sed sed facilisis sem. Praesent scelerisque eget lacus id tincidunt. Suspendisse ut diam vel massa egestas tempus et non nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent tempor pellentesque leo, eu faucibus tortor faucibus id. Donec a mauris imperdiet, luctus magna sit amet, rutrum tellus. Donec ornare molestie risus, id
-    aliquet est. Aenean eros ipsum, condimentum ut eleifend et, fringilla ac lorem. In hac habitasse platea dictumst. Praesent euismod feugiat leo sit amet posuere. Sed vestibulum nunc ac magna consequat, et faucibus mi posuere. Quisque in tempus nibh, facilisis suscipit enim.</p>
+    <p class = "text-justify">{{ job.summary }}</p>
     <h2>Job requirements</h2>
-    <p class = "text-justify">Etiam scelerisque interdum condimentum. Aenean vel sagittis sapien. Sed nec sapien ullamcorper, fringilla ligula in, maximus nisl. Mauris consequat, massa et sollicitudin pretium, tortor dolor efficitur urna, id pharetra nunc dolor id tellus. Curabitur iaculis sem in turpis placerat faucibus. Nullam fermentum lectus lorem. Phasellus libero augue, aliquet eget sollicitudin ac, feugiat ac augue.</p>
+    <p class = "text-justify">{{ job.requirements }}</p>
     <h2>About company</h2>
-    <p class = "text-justify">Etiam scelerisque interdum condimentum. Aenean vel sagittis sapien. Sed nec sapien ullamcorper, fringilla ligula in, maximus nisl. Mauris consequat, massa et sollicitudin pretium, tortor dolor efficitur urna, id pharetra nunc dolor id tellus. Curabitur iaculis sem in turpis placerat faucibus. Nullam fermentum lectus lorem. Phasellus libero augue, aliquet eget sollicitudin ac, feugiat ac augue.</p>
+    <p class = "text-justify">{{ job.about }}</p>
 <br />
     <div class="btn-group" role="group" aria-label="apply-group">
-        <button type="button" class="btn btn-success btn-lg">
+        <a href="{{ job.applylink }}" type="button" class="btn btn-success btn-lg">
             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 Apply to this position
-        </button>
+        </a>
         <button type="button" class="btn btn-default btn-lg">
             <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                 Copy URL for a friend
