@@ -58,7 +58,8 @@ class Job(db.Model):
 # URL routings
 @app.route('/')
 def homepage():
-    return render_template("home.html")
+    jobs = Job.query.filter_by(status = 'Active').all()
+    return render_template("home.html", jobs = jobs)
 
 
 @app.route('/job/<int:id>')
