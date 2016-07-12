@@ -12,7 +12,7 @@
         <hr />
         {% for job in jobs %}
         <p>
-        <strong>{{ job.company }}</strong> is looking for {{ job.title }} in {{ job.location }} 
+            <h2><strong>{{ job.company }}</strong> / {% if job.id == 4 %}<mark>{% endif %}<a href="/job/{{ job.id }}">{{ job.title }}</a>{% if job.id == 4 %}</mark>{% endif %} <small>in {{ job.location }}</small></h2> 
         </p>
         {% endfor %}
     </div>

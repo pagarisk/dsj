@@ -2,6 +2,7 @@ import os
 import sqlite3
 from flask import Flask, render_template, request, url_for, redirect, g, flash, abort
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 from flask_wtf import Form
 from wtforms import StringField, TextAreaField, IntegerField, validators
 from datetime import datetime
@@ -58,7 +59,7 @@ class Job(db.Model):
 # URL routings
 @app.route('/')
 def homepage():
-    jobs = Job.query.filter_by(status = 'Active').all()
+    jobs = Job.query.filter_by(status = 'Active').order_by(desc(Job.date)).all()
     return render_template("home.html", jobs = jobs)
 
 
