@@ -10,6 +10,10 @@ body {
     max-width: 760px;
 }
 
+.job-listing {
+    font-size: 18px !important;
+}
+
 .footer {
     padding-top: 30px;
 }
