@@ -32,8 +32,6 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class = "nav navbar-nav navbar-right">
-                            <li><a href="/">About</a></li>
-                            <li><a href="/">Contact</a></li>
                             <li>
                                 <div class="btn-group" role="group" aria-label="nav-group">
                                     <a type="button" class="btn btn-success navbar-btn" href="{{ url_for('add_job') }}">Post a job for free</a>
@@ -45,7 +43,7 @@
                 </div>
             </nav>
             {% block content %}{% endblock %}
-            <p class="text-muted text-center footer">&copy; Data Science Jobs</p>
+            <p class="text-muted text-center footer"><a href="#">Contact</a> / &copy; Data Science Jobs</p>
         </div>
             
     <!-- Mailchimp popup -->

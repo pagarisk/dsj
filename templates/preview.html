@@ -5,6 +5,21 @@
 {% block content %}
 <div class = "container-narrow">
     <div class = "page-header">  
+        <h1><strong>Post preview</strong></h1>
+    </div>
+    <p class = "lead">
+        Here's what you post is going to look like in our listing. Depending on your settings, it might be <mark>highlighted</mark> and featured in our newsletter. Newsletter option, however, does not impact the look of the post.
+    </p>
+    <p>
+        <h3><strong>Some Company</strong> / <a href="#">Chief Data Scientist</a><small> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Mountain View, CA or Seattle, WA</small></h3>
+    </p>
+    <p>
+    <h3><strong>{{ job.company }}</strong> / {% if job.highlighted %}<mark>{% endif %}<a href="#">{{ job.title }}</a>{% if job.highlighted %}</mark>{% endif %} <small> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{ job.location }}</small></h3>
+    </p>
+    <p>
+        <h3><strong>Startup Co.</strong> / <a href="#">Machine Learning Engineer</a><small> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Remote</small></h3>
+    </p>
+    <div class = "page-header">  
         <h1>{{ job.title }}</h1>
     </div>
     <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="{{ job.companylink }}" target = "_blank">Company website</a> /

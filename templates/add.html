@@ -16,13 +16,35 @@
 {% endmacro %}
 
 <div class = "container-narrow">
-    <form action="{{ url_for('add_job') }}" method="POST">
+    <form action="{{ url_for('preview_job') }}" method="POST">
+        <div class = "page-header">
+            <h1><strong>Add a job</strong></h1>
+        </div>
+        <h2>Tell us about the role</h2>
         <div class="form-group">
             <label for="title">Job title</label>
             <input type="text" class="form-control" id="title" name = "title" placeholder="Data Science Engineer">
             {{ render_errors(form.title) }}
             <p class = "help-block">What is the position called?</p>
         </div>
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" name = "location" placeholder="Seattle, WA, New York, NY or remote">
+            {{ render_errors(form.location) }}
+            <p class = "help-block">Where are you located? Fill in 'Remote' if location is not important.</p>
+        </div>
+        <div class="form-group">
+            <label for="summary">Job summary (supports markdown)</label>
+            <textarea class="form-control" id="summary" name = "summary" rows=5></textarea>
+            {{ render_errors(form.summary) }}
+        </div>
+        <div class="form-group">
+            <label for="requirements">Job requirements (supports markdown)</label>
+            <textarea class="form-control" id="requirements" name = "requirements" rows=5></textarea>
+            {{ render_errors(form.requirements) }}
+        </div>
+        <hr />
+        <h2>Tell us about your company</h2>
         <div class="form-group">
             <label for="company">Company name</label>
             <input type="text" class="form-control" id="company" name = "company" placeholder="Cool and Rad Co.">
@@ -32,35 +54,36 @@
         <div class="form-group">
             <label for="companylink">Company website</label>
             <input type="text" class="form-control" id="companylink" placeholder="https://coolandrad.co">
-            {{ render_errors(form.companylink) }}
+            {{ render_errors(form.company_link) }}
             <p class = "help-block">Care to provide your company website? This field is optional.</p>
         </div>
         <div class="form-group">
-            <label for="location">Location</label>
-            <input type="text" class="form-control" id="location" name = "location" placeholder="Seattle, WA, New York, NY or remote">
-            {{ render_errors(form.location) }}
-            <p class = "help-block">Where are you located? Fill in 'Remote' if location is not important.</p>
-        </div>
-        <div class="form-group">
-            <label for="summary">Job summary</label>
-            <textarea class="form-control" id="summary" name = "summary" rows=5>Put the job summary here...</textarea>
-            {{ render_errors(form.summary) }}
-        </div>
-        <div class="form-group">
-            <label for="requirements">Job requirements</label>
-            <textarea class="form-control" id="requirements" name = "requirements" rows=5>What are the required qualifications for this position?</textarea>
-            {{ render_errors(form.requirements) }}
-        </div>
-        <div class="form-group">
             <label for="about">About company</label>
-            <textarea class="form-control" id="about" name = "about" rows=5>Tell a couple of words about your company.</textarea>
+            <textarea class="form-control" id="about" name = "about" rows=5></textarea>
             {{ render_errors(form.about) }}
         </div>
         <div class="form-group">
-            <label for="applylink">Application link</label>
-            <input type="text" class="form-control" id="applylink" placeholder="https://coolandrad.co/jobs/data-science-engineer">
-            {{ render_errors(form.applylink) }}
-            <p class = "help-block">Where should the candidate submit an application?</p>
+            <label for="apply_info">How should candidates apply?</label>
+            <textarea class="form-control" id="apply_info" name = "apply_info" rows=5></textarea>
+            {{ render_errors(form.apply_info) }}
+            <p class = "help-block">Example: Apply at out website: http://company.com/careers or send CV to careers@company.com</p>
+        </div>
+        <hr />
+        <h2>Additional options <small>+ 30 days free</small></h2>
+        <div class = "well">
+            <p>For an additional sum of money, you can <strong>boost your job posting</strong>. You can <strong><mark>highlight the job</mark></strong>, so it would stand out in the list. Alternatively, we can <strong>feature your posting</strong> in a weekly newsletter to our subscribers. In case you choose to boost your posting in any way, we'll grant you <strong>additional 30 days for free.</strong></p>
+            <div class="checkbox">
+                <label for = "highlighted">
+                    <input type="checkbox" id = "highlighted" name = "highlighted"> +$20 &ndash; <strong>Yes, <mark>highlight</mark> my listing</strong>
+                </label>
+                <p class = "help-block">Highlighted jobs stand out from the list and tend to get more views than the regular ones.</p>
+            </div>
+            <div class="checkbox">
+                <label for = "mailing_list">
+                    <input type="checkbox" id = "mailing_list" name = "mailing_list"> +$20 &ndash; <strong>Yes, feature this job in the newsletter</strong>
+                </label>
+                <p class = "help-block">Newsletters help to reach additional audience of people that do not actively check our website for jobs, but opt to receive our newsletter.</p>
+            </div>
         </div>
         <button type="submit" class="btn btn-success btn-lg">Submit</button>
     {{ form.csrf_token }}

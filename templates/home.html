@@ -10,10 +10,10 @@
         Or, if you're an employer looking for a top-class data science talent &ndash; submit an opening to out listing!
         </p>
         <hr />
-        {% for job in jobs %}
+        {# {% for job in jobs %}
         <p>
-            <h2><strong>{{ job.company }}</strong> / {% if job.id == 4 %}<mark>{% endif %}<a href="/job/{{ job.id }}">{{ job.title }}</a>{% if job.id == 4 %}</mark>{% endif %} <small>in {{ job.location }}</small></h2> 
+        <h3><strong>{{ job.company }}</strong> / {% if job.id == 4 %}<mark>{% endif %}<a href="/job/{{ job.id }}">{{ job.title }}</a>{% if job.id == 4 %}</mark>{% endif %} <small>in {{ job.location }}</small></h3>
         </p>
-        {% endfor %}
+        {% endfor %}#}
     </div>
 {% endblock %}
