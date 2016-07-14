@@ -1,7 +1,6 @@
 import os
-import sqlite3
 import markdown
-from flask import Flask, render_template, request, url_for, redirect, g, session, flash, abort, Markup
+from flask import Flask, render_template, request, url_for, redirect, session, flash, abort, Markup
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
 from flask_wtf import Form
@@ -11,7 +10,7 @@ from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-app.secret_key = 'sdfasdfojpekweorjwejfljwqnrflwierjfpwijrfpweirjfweifrj'
+app.secret_key = '123sdfasdfajsdfajsd(*^%$&^%&%^$&%23eh1238dhq23d%'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dsj.db'
 db = SQLAlchemy(app)
@@ -140,24 +139,21 @@ def preview_job():
             form.apply_info.data,
             form.contact_email.data,
             form.contact_name.data)
-    session['job_highlighted'] = form.highlighted.data
-    session['job_mailing_list'] = form.mailing_list.data
-    session['job_title'] = form.title.data
-    """
-    session[''] = job.
-    session[''] = job.
-    session[''] = job.
-    session[''] = job.
-    session[''] = job.
-    session[''] = job.
-    session[''] = job.
-    session[''] = job.
-    session[''] = job.
-    session[''] = job.
-    """
+    session['job_highlighted'] = job.highlighted
+    session['job_mailing_list'] = job.mailing_list
+    session['job_title'] = job.title
+    session['job_company'] = job.company
+    session['job_location'] = job.location
+    session['job_company_link'] = job.company_link
+    session['job_summary'] = job.summary
+    session['job_requirements'] = job.requirements
+    session['job_about'] = job.about
+    session['job_apply_info'] = job.apply_info
+    session['Job_contact_email'] = job.contact_email
+    session['job_contact_name'] = job.contact_name
     return render_template("preview.html", job = job)
 
 
 # run only if the file is called directly
 if __name__ == '__main__':
-    app.run()
+        app.run()
