@@ -15,61 +15,93 @@
     {% endif %}
 {% endmacro %}
 
+<script type="text/javascript" charset="utf-8">
+    function validateSimple(x, par){
+        var re = /[a-zA-Z. -]$/;
+        if (re.test(document.getElementById(x).value)) {
+            document.getElementById(par).className = "form-group has-success has-feedback"
+        } else {
+            document.getElementById(par).className = "form-group has-error has-feedback"
+        }
+    }
+    
+    function validateUrl(x, par){
+        var re = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+        if (re.test(document.getElementById(x).value)) {
+            document.getElementById(par).className = "form-group has-success has-feedback"
+        } else {
+            if (document.getElementById(x).value.length > 0) {
+                document.getElementById(par).className = "form-group has-error has-feedback"
+            } else {
+                document.getElementById(par).className = "form-group has-success has-feedback"
+            }
+        }
+    }
+    
+    function validateSize(x, par) {
+        if (document.getElementById(x).value.length < 1600 && document.getElementById(x).value.length > 10) {
+            document.getElementById(par).className = "form-group has-success has-feedback"
+        } else {
+            document.getElementById(par).className = "form-group has-error has-feedback"
+        }
+    }
+</script>
+
 <div class = "container-narrow">
-    <form action="{{ url_for('preview_job') }}" method="POST">
-        <div class = "page-header">
-            <h1><strong>Add a job</strong></h1>
-        </div>
-        <h2>Tell us about the role</h2>
-        <div class="form-group">
-            <label for="title">Job title</label>
-            <input type="text" class="form-control" id="title" name = "title" placeholder="Data Science Engineer">
-            {{ render_errors(form.title) }}
-            <p class = "help-block">What is the position called?</p>
-        </div>
-        <div class="form-group">
-            <label for="location">Location</label>
-            <input type="text" class="form-control" id="location" name = "location" placeholder="Seattle, WA, New York, NY or remote">
-            {{ render_errors(form.location) }}
-            <p class = "help-block">Where are you located? Fill in 'Remote' if location is not important.</p>
-        </div>
-        <div class="form-group">
-            <label for="summary">Job summary (supports markdown)</label>
-            <textarea class="form-control" id="summary" name = "summary" rows=5></textarea>
-            {{ render_errors(form.summary) }}
-        </div>
-        <div class="form-group">
-            <label for="requirements">Job requirements (supports markdown)</label>
-            <textarea class="form-control" id="requirements" name = "requirements" rows=5></textarea>
+<form action="{{ url_for('preview_job') }}" method="POST">
+    <div class = "page-header">
+        <h1><strong>Add a job</strong></h1>
+    </div>
+    <h2>Tell us about the role</h2>
+    <div class="form-group" id = "job-title-field">
+        <label for="title">Job title</label>
+        <input type="text" class="form-control" id="title" name = "title" onblur = "validateSimple('title', 'job-title-field')" placeholder="Data Science Engineer">
+        {{ render_errors(form.title) }}
+        <p class = "help-block">What is the position called?</p>
+    </div>
+    <div class="form-group" id = "job-location-field">
+        <label for="location">Location</label>
+        <input type="text" class="form-control" id="location" name = "location" onblur = "validateSimple('location', 'job-location-field')" placeholder="Seattle, WA, New York, NY or remote">
+        {{ render_errors(form.location) }}
+        <p class = "help-block">Where are you located? Fill in 'Remote' if location is not important.</p>
+    </div>
+    <div class="form-group" id = "job-summary-field">
+        <label for="summary">Job summary <small class = "text-muted">(supports markdown, up to 1600 characters)</small></label>
+        <textarea class="form-control" id="summary" name = "summary" rows=5 onblur = "validateSize('summary', 'job-summary-field')"></textarea>
+        {{ render_errors(form.summary) }}
+    </div>
+    <div class="form-group" id = "job-requirements-field">
+        <label for="requirements">Job requirements <small class = "text-muted">(supports markdown, up to 1600 characters)</small></label>
+            <textarea class="form-control" id="requirements" name = "requirements" rows=5 onblur = "validateSize('requirements', 'job-requirements-field')"></textarea>
             {{ render_errors(form.requirements) }}
         </div>
         <hr />
         <h2>Tell us about your company</h2>
-        <div class="form-group">
+        <div class="form-group" id = "job-company-field">
             <label for="company">Company name</label>
-            <input type="text" class="form-control" id="company" name = "company" placeholder="Cool and Rad Co.">
+            <input type="text" class="form-control" id="company" name = "company" onblur = "validateSimple('company', 'job-company-field')" placeholder="Cool and Rad Co.">
             {{ render_errors(form.company) }}
             <p class = "help-block">What is the name of your company?</p>
         </div>
-        <div class="form-group">
+        <div class="form-group" id = "job-url-field">
             <label for="companylink">Company website</label>
-            <input type="text" class="form-control" id="companylink" placeholder="https://coolandrad.co">
+            <input type="text" class="form-control" id="companylink" onblur = "validateUrl('companylink', 'job-url-field')" placeholder="https://coolandrad.co">
             {{ render_errors(form.company_link) }}
             <p class = "help-block">Care to provide your company website? This field is optional.</p>
         </div>
-        <div class="form-group">
-            <label for="about">About company</label>
-            <textarea class="form-control" id="about" name = "about" rows=5></textarea>
+        <div class="form-group" id = "job-about-field">
+            <label for="about">About company <small class = "text-muted">(supports markdown, up to 1600 characters)</small></label>
+            <textarea class="form-control" id="about" name = "about" rows=5 onblur = "validateSize('about', 'job-about-field')"></textarea>
             {{ render_errors(form.about) }}
         </div>
-        <div class="form-group">
+        <div class="form-group" id = "job-apply-info">
             <label for="apply_info">How should candidates apply?</label>
-            <textarea class="form-control" id="apply_info" name = "apply_info" rows=5></textarea>
+            <textarea class="form-control" id="apply_info" name = "apply_info" rows=5 onblur = "validateSize('apply_info', 'job-apply-info')"></textarea>
             {{ render_errors(form.apply_info) }}
             <p class = "help-block">Example: Apply at out website: http://company.com/careers or send CV to careers@company.com</p>
         </div>
         <hr />
-        <h2>Additional options <small>+ 30 days free</small></h2>
+        <h2>Additional options <small><span class = "label label-success">+ 30 days free</span></small></h2>
         <div class = "well">
             <p>For an additional sum of money, you can <strong>boost your job posting</strong>. You can <strong><mark>highlight the job</mark></strong>, so it would stand out in the list. Alternatively, we can <strong>feature your posting</strong> in a weekly newsletter to our subscribers. In case you choose to boost your posting in any way, we'll grant you <strong>additional 30 days for free.</strong></p>
             <div class="checkbox">
@@ -82,7 +114,7 @@
                 <label for = "mailing_list">
                     <input type="checkbox" id = "mailing_list" name = "mailing_list"> +$20 &ndash; <strong>Yes, feature this job in the newsletter</strong>
                 </label>
-                <p class = "help-block">Newsletters help to reach additional audience of people that do not actively check our website for jobs, but opt to receive our newsletter.</p>
+                <p class = "help-block">Newsletters help you reach additional audience of those who do not actively check our website for new jobs, but opted to receive our newsletter.</p>
             </div>
         </div>
         <button type="submit" class="btn btn-success btn-lg">Submit</button>

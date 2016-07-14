@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-app.secret_key = '123sdfasdfajsdfajsd(*^%$&^%&%^$&%23eh1238dhq23d%'
+app.secret_key = 'asdfasdfasdfasdfasdfasdfasdfasdf!!!!!!!!!!!!!!!!!!!!!!!!1aefafawefawef'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dsj.db'
 db = SQLAlchemy(app)
@@ -84,8 +84,8 @@ class Job(db.Model):
 # URL routings
 @app.route('/')
 def homepage():
-    jobs = None
-    #jobs = Job.query.filter_by(status = 'Active').order_by(desc(Job.id)).all()
+    #jobs = None
+    jobs = Job.query.filter_by(status = 'Active').order_by(desc(Job.id)).all()
     return render_template("home.html", jobs = jobs)
 
 
@@ -96,28 +96,6 @@ def job(id):
         return render_template("job.html", job = job)
     else:
         abort(404)
-
-@app.route('/submit', methods = ['POST'])
-def submit_job():
-    form = JobForm(request.form)
-    if request.method == 'POST' and form.validate():
-        new_job = Job(form.highlighted.data,
-                form.mailing_list.data,
-                form.title.data,
-                form.company.data,
-                form.location.data,
-                form.company_link.data,
-                form.summary.data,
-                form.requirements.data,
-                form.about.data,
-                form.apply_info.data,
-                form.contact_email.data,
-                form.contact_name.data)
-        db.session.add(new_job)
-        db.session.commit()
-        flash('Thank you! Your job posting has been submitted.')
-        return redirect(url_for('homepage'))
-    return render_template("add.html")
 
 @app.route('/add')
 def add_job():
@@ -153,6 +131,31 @@ def preview_job():
     session['job_contact_name'] = job.contact_name
     return render_template("preview.html", job = job)
 
+@app.route('/submit', methods = ['POST'])
+def submit_job():
+    #form = JobForm(request.form)
+    if request.method == 'POST' and form.validate():
+        new_job = Job(form.highlighted.data,
+                form.mailing_list.data,
+                form.title.data,
+                form.company.data,
+                form.location.data,
+                form.company_link.data,
+                form.summary.data,
+                form.requirements.data,
+                form.about.data,
+                form.apply_info.data,
+                form.contact_email.data,
+                form.contact_name.data)
+        db.session.add(new_job)
+        db.session.commit()
+        flash('Thank you! Your job posting has been submitted.')
+        return redirect(url_for('homepage'))
+    return render_template("add.html")
+
+@app.route('/debug')
+def debug():
+    return session.get_cookie_path(app)
 
 # run only if the file is called directly
 if __name__ == '__main__':

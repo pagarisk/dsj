@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-    <title>{{ job.title }} &ndash; Data Science Jobs</title>
+    <title>{{ session['job_title'] }} &ndash; Data Science Jobs</title>
 {% endblock %}
 {% block content %}
 <div class = "container-narrow">
@@ -19,7 +19,7 @@
                 <strong>Some Company</strong> / <a href="#">Chief Data Scientist</a><small> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Mountain View, CA or Seattle, WA</small>
             </p>
             <p class = "job-listing">
-            <strong>{{ job.company }}</strong> / {% if job.highlighted %}<mark>{% endif %}<a href="#">{{ job.title }}</a>{% if job.highlighted %}</mark>{% endif %} <small> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{ job.location }}</small>
+            <strong>{{ session['job_company'] }}</strong> / {% if session['job_highlighted'] %}<mark>{% endif %}<a href="#">{{ session['job_title'] }}</a>{% if session['job_highlighted'] %}</mark>{% endif %} <small> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{ session['job_location'] }}</small>
             </p>
             <p class = "job-listing">
                 <strong>Startup Co.</strong> / <a href="#">Machine Learning Engineer</a><small> <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Remote</small>
@@ -27,17 +27,19 @@
         </div>
     </div>
     <div class = "page-header">  
-        <h1>{{ job.title }}</h1>
+        <h1>{{ session['job_title'] }}</h1>
     </div>
-    <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="{{ job.companylink }}" target = "_blank">Company website</a> /
-    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{ job.location }} / 
-            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Published on {{ job.date }}
+    {% if 'job_companylink' in session %}
+        <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="{{ session['job_companylink'] }}" target = "_blank">Company website</a> /
+    {% endif %}
+    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{ session['job_location'] }} / 
+            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Published on {{ session['job_date'] }}
     <h2>Job summary</h2>
-    <p class = "text-justify">{{ job.summary }}</p>
+    <p class = "text-justify">{{ session['job_summary'] }}</p>
     <h2>Job requirements</h2>
-    <p class = "text-justify">{{ job.requirements }}</p>
+    <p class = "text-justify">{{ session['job_requirements'] }}</p>
     <h2>About company</h2>
-    <p class = "text-justify">{{ job.about }}</p>
+    <p class = "text-justify">{{ session['job_about'] }}</p>
 <br />
     <div class="btn-group" role="group" aria-label="apply-group">
         <a href="{{ job.applylink }}" type="button" class="btn btn-success btn-lg">
