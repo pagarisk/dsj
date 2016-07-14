@@ -1,7 +1,7 @@
 import os
 import sqlite3
 import markdown
-from flask import Flask, render_template, request, url_for, redirect, g, flash, abort, Markup
+from flask import Flask, render_template, request, url_for, redirect, g, session, flash, abort, Markup
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
 from flask_wtf import Form
@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-app.secret_key = '123'
+app.secret_key = 'sdfasdfojpekweorjwejfljwqnrflwierjfpwijrfpweirjfweifrj'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dsj.db'
 db = SQLAlchemy(app)
@@ -140,10 +140,24 @@ def preview_job():
             form.apply_info.data,
             form.contact_email.data,
             form.contact_name.data)
-
+    session['job_highlighted'] = form.highlighted.data
+    session['job_mailing_list'] = form.mailing_list.data
+    session['job_title'] = form.title.data
+    """
+    session[''] = job.
+    session[''] = job.
+    session[''] = job.
+    session[''] = job.
+    session[''] = job.
+    session[''] = job.
+    session[''] = job.
+    session[''] = job.
+    session[''] = job.
+    session[''] = job.
+    """
     return render_template("preview.html", job = job)
 
 
 # run only if the file is called directly
 if __name__ == '__main__':
-        app.run()
+    app.run()
