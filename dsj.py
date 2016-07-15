@@ -7,6 +7,7 @@ from flask_wtf import Form
 from wtforms import StringField, TextAreaField, IntegerField, BooleanField, validators
 from wtforms.fields.html5 import EmailField
 from datetime import datetime, timedelta
+import time
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -117,6 +118,9 @@ def preview_job():
             form.apply_info.data,
             form.contact_email.data,
             form.contact_name.data)
+    job.summary = Markup(markdown.markdown(job.summary))
+    job.requirements = Markup(markdown.markdown(job.requirements))
+    job.about = Markup(markdown.markdown(job.about))
     session['job_highlighted'] = job.highlighted
     session['job_mailing_list'] = job.mailing_list
     session['job_title'] = job.title
@@ -127,31 +131,45 @@ def preview_job():
     session['job_requirements'] = job.requirements
     session['job_about'] = job.about
     session['job_apply_info'] = job.apply_info
-    session['Job_contact_email'] = job.contact_email
+    session['job_contact_email'] = job.contact_email
     session['job_contact_name'] = job.contact_name
     return render_template("preview.html", job = job)
 
 @app.route('/submit', methods = ['POST'])
 def submit_job():
-    #form = JobForm(request.form)
-    if request.method == 'POST' and form.validate():
-        new_job = Job(form.highlighted.data,
-                form.mailing_list.data,
-                form.title.data,
-                form.company.data,
-                form.location.data,
-                form.company_link.data,
-                form.summary.data,
-                form.requirements.data,
-                form.about.data,
-                form.apply_info.data,
-                form.contact_email.data,
-                form.contact_name.data)
-        db.session.add(new_job)
-        db.session.commit()
-        flash('Thank you! Your job posting has been submitted.')
-        return redirect(url_for('homepage'))
-    return render_template("add.html")
+    """
+    form = JobForm(session['job_title'],
+            session['job_location'],
+            session['job_company'],
+            session['job_summary'],
+            session['job_requirements'],
+            session['job_apply_info'],
+            session['job_company'],
+            session['job_company_link'],
+            session['job_about'],
+            session['job_contact_email'],
+            session['job_contact_name'],
+            session['job_highlighted'],
+            session['job_mailing_list'])
+    if form.validate():
+    """
+    new_job = Job(session['job_highlighted'],
+                session['job_mailing_list'],
+                session['job_title'],
+                session['job_company'],
+                session['job_location'],
+                session['job_company_link'],
+                session['job_summary'],
+                session['job_requirements'],
+                session['job_about'],
+                session['job_apply_info'],
+                session['job_contact_email'],
+                session['job_contact_name'])
+    db.session.add(new_job)
+    db.session.commit()
+    session.clear()
+    flash('Thank you! Your job posting has been submitted.')
+    return redirect(url_for('homepage'))
 
 @app.route('/debug')
 def debug():

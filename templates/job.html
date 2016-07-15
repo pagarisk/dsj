@@ -3,29 +3,50 @@
     <title>{{ job.title }} &ndash; Data Science Jobs</title>
 {% endblock %}
 {% block content %}
+<script type="text/javascript" charset="utf-8">
+function timeSince(date) {
+    var seconds = Math.floor(((new Date().getTime()/1000) - date))
+    var interval = Math.floor(seconds / 31536000);
+    if (interval >= 1) {
+        return interval + " years";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) {
+        return interval + " months";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) {
+        return interval + " days";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) {
+        return interval + " hours";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) {
+        return interval + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
+}
+</script>
 <div class = "container-narrow">
     <div class = "page-header">  
         <h1>{{ job.title }}</h1>
     </div>
-    <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="{{ job.companylink }}" target = "_blank">Company website</a> /
+    {% if job.company_link != "" %}
+        <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="http://{{ job.company_link }}" target = "_blank">Company website</a> /
+    {% endif %}
     <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{ job.location }} / 
-            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Published on {{ job.date }}
+    <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Published on {{ job.publish_date }}
     <h2>Job summary</h2>
     <p class = "text-justify">{{ job.summary }}</p>
     <h2>Job requirements</h2>
     <p class = "text-justify">{{ job.requirements }}</p>
     <h2>About company</h2>
     <p class = "text-justify">{{ job.about }}</p>
-<br />
-    <div class="btn-group" role="group" aria-label="apply-group">
-        <a href="{{ job.applylink }}" type="button" class="btn btn-success btn-lg">
-            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                Apply to this position
-        </a>
-        <button type="button" class="btn btn-default btn-lg">
-            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
-                Copy URL for a friend
-        </button>
+    <h2>Application info</h2>
+    <div class = well>
+        {{ job.apply_info }}
     </div>
 </div>
 {% endblock %}

@@ -29,27 +29,30 @@
     <div class = "page-header">  
         <h1>{{ session['job_title'] }}</h1>
     </div>
-    {% if 'job_companylink' in session %}
-        <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="{{ session['job_companylink'] }}" target = "_blank">Company website</a> /
+    {% if session['job_company_link'] != "" %}
+        <span class="glyphicon glyphicon-link" aria-hidden="true"></span> <a href="http://{{ session['job_company_link'] }}" target = "_blank">Company website</a> /
     {% endif %}
     <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{ session['job_location'] }} / 
-            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Published on {{ session['job_date'] }}
+    <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Published today
     <h2>Job summary</h2>
     <p class = "text-justify">{{ session['job_summary'] }}</p>
     <h2>Job requirements</h2>
     <p class = "text-justify">{{ session['job_requirements'] }}</p>
     <h2>About company</h2>
     <p class = "text-justify">{{ session['job_about'] }}</p>
-<br />
-    <div class="btn-group" role="group" aria-label="apply-group">
-        <a href="{{ job.applylink }}" type="button" class="btn btn-success btn-lg">
-            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                Apply to this position
-        </a>
-        <button type="button" class="btn btn-default btn-lg">
-            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
-                Copy URL for a friend
-        </button>
+    <h2>Application info</h2>
+    <div class = well>
+        {{ session['job_apply_info'] }}
     </div>
+        <form action = "{{ url_for('submit_job') }}" method = "POST">
+        <a href="{{ url_for('add_job') }}" type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+            Go back to edit
+        </a>
+        <button type="submit" class="btn btn-success btn-lg pull-right">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            Looks good, let's publish it
+        </button>
+        </form>
 </div>
 {% endblock %}
