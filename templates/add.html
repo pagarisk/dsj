@@ -45,6 +45,16 @@
             document.getElementById(par).className = "form-group has-error has-feedback"
         }
     }
+    
+    function checkFields() {
+        if (hasError = document.getElementsByClassName('has-error').length == 0) {
+            document.getElementById('submit').disabled = false;
+            document.getElementById('submit-helper').className = "hide";
+        } else {  
+            document.getElementById('submit').disabled = true;
+            document.getElementById('submit-helper').className = "text-danger";
+        }
+    }
 </script>
 
 <div class = "container-narrow">
@@ -55,31 +65,31 @@
     <h2>Tell us about the role</h2>
     <div class="form-group" id = "job-title-field">
         <label for="title">Job title</label>
-        <input type="text" class="form-control" id="title" name = "title" onblur = "validateSimple('title', 'job-title-field')" placeholder="Data Science Engineer" {% if 'job_title' in session %}value="{{ session['job_title'] }}"{% endif %}>
+        <input type="text" class="form-control" id="title" name = "title" onblur = "validateSimple('title', 'job-title-field'); checkFields();" placeholder="Data Science Engineer" {% if 'job_title' in session %}value="{{ session['job_title'] }}"{% endif %}>
         {{ render_errors(form.title) }}
         <p class = "help-block">What is the position called?</p>
     </div>
     <div class="form-group" id = "job-location-field">
         <label for="location">Location</label>
-        <input type="text" class="form-control" id="location" name = "location" onblur = "validateSimple('location', 'job-location-field')" placeholder="Seattle, WA, New York, NY or remote" {% if 'job_location' in session %}value="{{ session['job_location'] }}"{% endif %}>
+        <input type="text" class="form-control" id="location" name = "location" onblur = "validateSimple('location', 'job-location-field'); checkFields();" placeholder="Seattle, WA, New York, NY or remote" {% if 'job_location' in session %}value="{{ session['job_location'] }}"{% endif %}>
         {{ render_errors(form.location) }}
         <p class = "help-block">Where are you located? Fill in 'Remote' if location is not important.</p>
     </div>
     <div class="form-group" id = "job-summary-field">
-        <label for="summary">Job summary <small class = "text-muted">(supports markdown, up to 1900 characters)</small></label>
-        <textarea class="form-control" id="summary" name = "summary" rows=5 onblur = "validateSize('summary', 'job-summary-field')">{% if 'job_summary' in session %}{{ session['job_summary'] }}{% endif %}</textarea>
+        <label for="summary">Job summary <small class = "text-muted">(supports <a href = "https://blog.ghost.org/markdown/" target = "_blank">markdown</a>, up to 1900 characters)</small></label>
+        <textarea class="form-control" id="summary" name = "summary" rows=5 onblur = "validateSize('summary', 'job-summary-field'); checkFields();">{% if 'job_summary_form' in session %}{{ session['job_summary_form'] }}{% endif %}</textarea>
         {{ render_errors(form.summary) }}
     </div>
     <div class="form-group" id = "job-requirements-field">
-        <label for="requirements">Job requirements <small class = "text-muted">(supports markdown, up to 1900 characters)</small></label>
-            <textarea class="form-control" id="requirements" name = "requirements" rows=5 onblur = "validateSize('requirements', 'job-requirements-field')">{% if 'job_requirements' in session %}{{ session['job_requirements'] }}{% endif %}</textarea>
+        <label for="requirements">Job requirements <small class = "text-muted">(supports <a href = "https://blog.ghost.org/markdown/" target = "_blank">markdown</a>, up to 1900 characters)</small></label>
+            <textarea class="form-control" id="requirements" name = "requirements" rows=5 onblur = "validateSize('requirements', 'job-requirements-field'); checkFields();">{% if 'job_requirements_form' in session %}{{ session['job_requirements_form'] }}{% endif %}</textarea>
             {{ render_errors(form.requirements) }}
         </div>
         <hr />
         <h2>Tell us about your company</h2>
         <div class="form-group" id = "job-company-field">
             <label for="company">Company name</label>
-            <input type="text" class="form-control" id="company" name = "company" onblur = "validateSimple('company', 'job-company-field')" placeholder="Cool and Rad Co." {% if 'job_company' in session %}value="{{ session['job_company'] }}"{% endif %}>
+            <input type="text" class="form-control" id="company" name = "company" onblur = "validateSimple('company', 'job-company-field'); checkFields();" placeholder="The Company Inc." {% if 'job_company' in session %}value="{{ session['job_company'] }}"{% endif %}>
             {{ render_errors(form.company) }}
             <p class = "help-block">What is the name of your company?</p>
         </div>
@@ -87,34 +97,34 @@
             <label for="company_link">Company website</label>
                 <div class = "input-group">
                     <span class="input-group-addon" id="basic-addon3">http://</span>
-                    <input type="text" class="form-control" id="company_link" name = "company_link" onblur = "validateUrl('company_link', 'job-url-field')" placeholder="https://coolandrad.co" {% if 'job_company_link' in session %}value="{{ session['job_company_link'] }}"{% endif %}>
+                    <input type="text" class="form-control" id="company_link" name = "company_link" onblur = "validateUrl('company_link', 'job-url-field'); checkFields();" placeholder="company.com/why_us" {% if 'job_company_link' in session %}value="{{ session['job_company_link'] }}"{% endif %}>
                 </div>
             {{ render_errors(form.company_link) }}
             <p class = "help-block">Care to provide your company website? This field is optional.</p>
         </div>
         <div class="form-group" id = "job-about-field">
-            <label for="about">About company <small class = "text-muted">(supports markdown, up to 1600 characters)</small></label>
-            <textarea class="form-control" id="about" name = "about" rows=5 onblur = "validateSize('about', 'job-about-field')">{% if 'job_about' in session %}{{ session['job_about'] }}{% endif %}</textarea>
+            <label for="about">About company <small class = "text-muted">(supports <a href = "https://blog.ghost.org/markdown/" target = "_blank">markdown</a>, up to 1600 characters)</small></label>
+            <textarea class="form-control" id="about" name = "about" rows=5 onblur = "validateSize('about', 'job-about-field'); checkFields();">{% if 'job_about_form' in session %}{{ session['job_about_form'] }}{% endif %}</textarea>
             {{ render_errors(form.about) }}
         </div>
         <div class="form-group" id = "job-apply-info">
             <label for="apply_info">How should candidates apply?</label>
-            <textarea class="form-control" id="apply_info" name = "apply_info" rows=5 onblur = "validateSize('apply_info', 'job-apply-info')">{% if 'job_apply_info' in session %}{{ session['job_apply_info'] }}{% endif %}</textarea>
+            <textarea class="form-control" id="apply_info" name = "apply_info" rows=5 onblur = "validateSize('apply_info', 'job-apply-info'); checkFields();">{% if 'job_apply_info' in session %}{{ session['job_apply_info'] }}{% endif %}</textarea>
             {{ render_errors(form.apply_info) }}
             <p class = "help-block">Example: Apply at out website: http://company.com/careers or send CV to careers@company.com</p>
         </div>
         <h2>Your contact info</h2>
         <div class="form-group" id = "job-contact-email-field">
             <label for="title">Contact email</label>
-            <input type="text" class="form-control" id="contact_email" name = "contact_email" onblur = "validateSimple('contact_email', 'job-contact-email-field')" placeholder="careers@company.com" {% if 'job_contact_email' in session %}value="{{ session['job_contact_email'] }}"{% endif %}>
+            <input type="text" class="form-control" id="contact_email" name = "contact_email" onblur = "validateSimple('contact_email', 'job-contact-email-field'); checkFields();" placeholder="careers@company.com" {% if 'job_contact_email' in session %}value="{{ session['job_contact_email'] }}"{% endif %}>
             {{ render_errors(form.title) }}
             <p class = "help-block">Where should we reach out to confirm the posting?</p>
         </div>
         <div class="form-group" id = "job-contact-name-field">
             <label for="title">Contact name</label>
-            <input type="text" class="form-control" id="contact_name" name = "contact_name" onblur = "validateSimple('contact_name', 'job-contact-name-field')" placeholder="John Smith" {% if 'job_contact_name' in session %}value="{{ session['job_contact_name'] }}"{% endif %}>
+            <input type="text" class="form-control" id="contact_name" name = "contact_name" onblur = "validateSimple('contact_name', 'job-contact-name-field'); checkFields();" placeholder="John Smith" {% if 'job_contact_name' in session %}value="{{ session['job_contact_name'] }}"{% endif %}>
             {{ render_errors(form.title) }}
-            <p class = "help-block">Who do we confirm with? That's an optional field.</p>
+            <p class = "help-block">Who do we confirm with?</p>
         </div>
 
         <hr />
@@ -134,7 +144,11 @@
                 <p class = "help-block">Newsletters help you reach additional audience of those who do not actively check our website for new jobs, but opted to receive our newsletter.</p>
             </div>
         </div>
-        <button type="submit" class="btn btn-success btn-lg">Submit</button>
+        <div class = "text-danger" id = "submit-helper">
+            Something's not right. Please check if you filled all the fields correctly. 
+        </div>
+        <br />
+        <button type="submit" class="btn btn-success btn-lg" id = "submit" disabled="disabled">Submit</button>
     {{ form.csrf_token }}
     </form>
 </div>

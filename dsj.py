@@ -121,6 +121,9 @@ def preview_job():
     job.summary = Markup(markdown.markdown(job.summary))
     job.requirements = Markup(markdown.markdown(job.requirements))
     job.about = Markup(markdown.markdown(job.about))
+    session['job_summary_form'] = form.summary.data
+    session['job_requirements_form'] = form.requirements.data
+    session['job_about_form'] = form.about.data
     session['job_highlighted'] = job.highlighted
     session['job_mailing_list'] = job.mailing_list
     session['job_title'] = job.title
