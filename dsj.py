@@ -11,10 +11,16 @@ import time
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-app.secret_key = 'asdfasdfasdfasdfasdfasdfasdfasdf!!!!!!!!!!!!!!!!!!!!!!!!1aefafawefawef'
+app.secret_key = 'qwerty'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dsj.db'
 db = SQLAlchemy(app)
+
+# function for "time since" text
+@app.template_filter('date_to_millis')
+def date_to_millis(d):
+    """Converts a datetime object to the number of milliseconds since the unix epoch."""
+    return int(time.mktime(d.timetuple())) * 1000
 
 # class definitions
 class JobForm(Form):
@@ -56,7 +62,10 @@ class Job(db.Model):
             title, company, location, company_link,
             summary, requirements, about, apply_info,
             contact_email, contact_name):
-        self.status = 'Active'
+        if app.debug:
+            self.status = 'Active'
+        else:
+            self.status = 'Review'
         self.highlighted = highlighted
         self.mailing_list = mailing_list
         self.create_date = datetime.now()
@@ -168,11 +177,21 @@ def submit_job():
                 session['job_apply_info'],
                 session['job_contact_email'],
                 session['job_contact_name'])
+    new_job.summary = Markup(markdown.markdown(new_job.summary))
+    new_job.requirements = Markup(markdown.markdown(new_job.requirements))
+    new_job.about = Markup(markdown.markdown(new_job.about))
     db.session.add(new_job)
     db.session.commit()
     session.clear()
     flash('Thank you! Your job posting has been submitted.')
-    return redirect(url_for('homepage'))
+    if app.debug:
+        return redirect(url_for('homepage'))
+    else:
+        return redirect(url_for('thank_you_page'))
+
+@app.route('/thanks')
+def thank_you_page():
+    return render_template("thanks.html")
 
 @app.route('/debug')
 def debug():
@@ -180,4 +199,4 @@ def debug():
 
 # run only if the file is called directly
 if __name__ == '__main__':
-        app.run()
+        app.run(host = '0.0.0.0')
