@@ -2,6 +2,8 @@ import os
 import markdown
 from flask import Flask, render_template, request, url_for, redirect, session, flash, abort, Markup
 from flask_sqlalchemy import SQLAlchemy
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 from sqlalchemy import desc
 from flask_wtf import Form
 from wtforms import StringField, TextAreaField, IntegerField, BooleanField, validators
@@ -15,12 +17,6 @@ app.secret_key = 'qwerty'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dsj.db'
 db = SQLAlchemy(app)
-
-# function for "time since" text
-@app.template_filter('date_to_millis')
-def date_to_millis(d):
-    """Converts a datetime object to the number of milliseconds since the unix epoch."""
-    return int(time.mktime(d.timetuple())) * 1000
 
 # class definitions
 class JobForm(Form):
@@ -196,6 +192,11 @@ def thank_you_page():
 @app.route('/debug')
 def debug():
     return session.get_cookie_path(app)
+
+# admin section
+admin = Admin(app, name = 'dsj', template_mode = 'bootstrap3')
+admin.add_view(ModelView(Job, db.session))
+
 
 # run only if the file is called directly
 if __name__ == '__main__':
